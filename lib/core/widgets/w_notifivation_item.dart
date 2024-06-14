@@ -30,123 +30,165 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      key: ValueKey(text),
-      startActionPane: ActionPane(
-        extentRatio: 0.25,
-        motion: const DrawerMotion(),
-        children: [
-          Expanded(
-            child: Builder(
-              builder: (context) => GestureDetector(
-                onTap: onView,
-                child: Container(
-                  padding: EdgeInsets.only(top: 38.h,bottom: 32.h,right: 23.w,left: 22.w,),
-                  decoration: BoxDecoration(
-                    color: context.theme.colorScheme.successColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15.r),
-                      bottomLeft: Radius.circular(15.r),
-                    ),
-                  ),
-                  child: SvgPicture.asset(
-                    width: 25.w,
-                    height: 30.h,
-                    Assets.icons.view.path,
-                    colorFilter: ColorFilter.mode(
-                      context.theme.colorScheme.naturalColor0,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      endActionPane: ActionPane(
-        extentRatio: 0.25,
-        motion: const DrawerMotion(),
-        children: [
-          Expanded(
-            child: Builder(
-              builder: (context) => OverflowBox(
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Row(
+            children: [
+              Expanded(
                 child: GestureDetector(
-                  onTap: onDelete,
+                  onTap: onView,
                   child: Container(
-                    padding: EdgeInsets.only(top: 38.h,bottom: 32.h,right: 23.w,left: 22.w,),
-                   decoration: BoxDecoration(
-                     color: context.theme.colorScheme.dangerColor,
-                     borderRadius: BorderRadius.only(
-                       topRight: Radius.circular(15.r),
-                       bottomRight: Radius.circular(15.r),
-                     ),
-                   ),
-                    child: SvgPicture.asset(
-                      width: 25.w,
-                      height: 30.h,
-                      Assets.icons.remove.path,
-                      colorFilter: ColorFilter.mode(
-                        context.theme.colorScheme.naturalColor0,
-                        BlendMode.srcIn,
+                    padding: EdgeInsets.only(
+                      top: 38.h,
+                      bottom: 32.h,
+                      left: 23.w,
+                    ),
+                    width: 377.w,
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.successColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.r),
+                        bottomLeft: Radius.circular(15.r),
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SvgPicture.asset(
+                        width: 30.w,
+                        height: 18.h,
+                        Assets.icons.view.path,
+                        colorFilter: ColorFilter.mode(
+                          context.theme.colorScheme.naturalColor0,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: onDelete,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 38.h, bottom: 32.h, right: 23.w, left: 22.w),
+                    width: 377.w,
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.dangerColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15.r),
+                        bottomRight: Radius.circular(15.r),
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: SvgPicture.asset(
+                        width: 25.w,
+                        height: 30.h,
+                        Assets.icons.remove.path,
+                        colorFilter: ColorFilter.mode(
+                          context.theme.colorScheme.naturalColor0,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Container(
-        padding: EdgeInsets.all(12.w),
-        width: 377.w,
-        height: 100.h,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(15.r),
         ),
-        child: Row(
-          children: [
-            Container(
-              width: 50.w,
-              height: 50.h,
-              decoration: BoxDecoration(
-                color: iconBackgroundColor,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: context.theme.colorScheme.naturalColor9.withOpacity(0.1),
-                    offset: const Offset(1, 3),
-                    blurRadius: 8,
+        Slidable(
+          key: ValueKey(text),
+          startActionPane: ActionPane(
+            extentRatio: 0.20,
+            motion: const DrawerMotion(),
+            children: [
+              SlidableAction(
+                onPressed: (context) => onView(),
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.transparent,
+                icon: Icons.remove_red_eye,
+              ),
+            ],
+          ),
+          endActionPane: ActionPane(
+            extentRatio: 0.20,
+            motion: const DrawerMotion(),
+            children: [
+              SlidableAction(
+                onPressed: (context) => onDelete(),
+                icon: Icons.delete,
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.transparent,
+              ),
+            ],
+          ),
+          child: Builder(builder: (context) {
+            SlidableController? controller = Slidable.of(context);
+            return ValueListenableBuilder<int>(
+              valueListenable: controller?.direction ?? ValueNotifier<int>(0),
+              builder: (context, value, _) {
+                var borderRadius = BorderRadius.horizontal(
+                  right: Radius.circular(15.r),
+                  left: Radius.circular(15.r),
+                );
+                return Container(
+                  padding: EdgeInsets.all(12.w),
+                  width: 377.w,
+                  height: 100.h,
+                  decoration: BoxDecoration(
+                    color: backgroundColor,
+                    borderRadius: borderRadius,
                   ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: SvgPicture.asset(
-                  iconPath,
-                  width: 20.w,
-                  height: 24.h,
-                  colorFilter: ColorFilter.mode(
-                    context.theme.colorScheme.naturalColor9,
-                    BlendMode.srcIn,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 50.w,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          color: iconBackgroundColor,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: context.theme.colorScheme.naturalColor9.withOpacity(0.1),
+                              offset: const Offset(1, 3),
+                              blurRadius: 8,
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: SvgPicture.asset(
+                            iconPath,
+                            width: 20.w,
+                            height: 24.h,
+                            colorFilter: ColorFilter.mode(
+                              context.theme.colorScheme.naturalColor9,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                      ),
+                      13.createHorizontalGap,
+                      Expanded(
+                        child: Text(
+                          text,
+                          style: context.textTheme.titleMedium_14.copyWith(
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ),
-            13.createHorizontalGap,
-            Expanded(
-              child: Text(
-                text,
-                style: context.textTheme.titleMedium_14.copyWith(
-                  color: textColor,
-                ),
-              ),
-            ),
-          ],
+                );
+              },
+            );
+          }),
         ),
-      ),
+      ],
     );
   }
 }
