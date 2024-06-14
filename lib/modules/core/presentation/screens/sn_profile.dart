@@ -319,7 +319,7 @@ class _SNProfileState extends State<SNProfile> {
                 ],
               ),
             ),
-            26.createVerticalGap,
+            37.createVerticalGap,
           ],
         ),
       ),

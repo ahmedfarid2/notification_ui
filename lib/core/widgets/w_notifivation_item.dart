@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:notification_ui/core/assets/assets.gen.dart';
 import 'package:notification_ui/core/extension/color_extension.dart';
 import 'package:notification_ui/core/extension/context_extension.dart';
 import 'package:notification_ui/core/extension/int_extension.dart';
@@ -35,15 +36,31 @@ class NotificationItem extends StatelessWidget {
         extentRatio: 0.25,
         motion: const DrawerMotion(),
         children: [
-          SlidableAction(
-            onPressed: (context) => onView(),
-            backgroundColor: context.theme.colorScheme.successColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15.r),
-              bottomLeft: Radius.circular(15.r),
+          Expanded(
+            child: Builder(
+              builder: (context) => GestureDetector(
+                onTap: onView,
+                child: Container(
+                  padding: EdgeInsets.only(top: 38.h,bottom: 32.h,right: 23.w,left: 22.w,),
+                  decoration: BoxDecoration(
+                    color: context.theme.colorScheme.successColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15.r),
+                      bottomLeft: Radius.circular(15.r),
+                    ),
+                  ),
+                  child: SvgPicture.asset(
+                    width: 25.w,
+                    height: 30.h,
+                    Assets.icons.view.path,
+                    colorFilter: ColorFilter.mode(
+                      context.theme.colorScheme.naturalColor0,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ),
             ),
-            foregroundColor: context.theme.colorScheme.naturalColor0,
-            icon: Icons.visibility,
           ),
         ],
       ),
@@ -51,14 +68,32 @@ class NotificationItem extends StatelessWidget {
         extentRatio: 0.25,
         motion: const DrawerMotion(),
         children: [
-          SlidableAction(
-            onPressed: (context) => onDelete(),
-            backgroundColor: context.theme.colorScheme.dangerColor,
-            foregroundColor: context.theme.colorScheme.naturalColor0,
-            icon: Icons.delete,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(15.r),
-              bottomRight: Radius.circular(15.r),
+          Expanded(
+            child: Builder(
+              builder: (context) => OverflowBox(
+                child: GestureDetector(
+                  onTap: onDelete,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 38.h,bottom: 32.h,right: 23.w,left: 22.w,),
+                   decoration: BoxDecoration(
+                     color: context.theme.colorScheme.dangerColor,
+                     borderRadius: BorderRadius.only(
+                       topRight: Radius.circular(15.r),
+                       bottomRight: Radius.circular(15.r),
+                     ),
+                   ),
+                    child: SvgPicture.asset(
+                      width: 25.w,
+                      height: 30.h,
+                      Assets.icons.remove.path,
+                      colorFilter: ColorFilter.mode(
+                        context.theme.colorScheme.naturalColor0,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ],
